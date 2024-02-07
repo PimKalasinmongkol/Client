@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@use "@material/drawer";
+@use "@material/list";
+@include drawer.core-styles;
+@include drawer.dismissible-core-styles;
+@include drawer.modal-core-styles;
+@include list.deprecated-core-styles;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0); /* Fully transparent initially */
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease; /* Smooth transition */
+}
+
+.overlay.active {
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+}
+form {
+  overflow: auto;
+}
+
+:root {
+  --form-control-color: rebeccapurple;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #fff;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  width: 5px;
+  background-color: #686767;
+  border-radius: 20px;
+}
+
+/* MiniDrawer.css */
+
+
+
+.mini-drawer {
+  width: 220px;
+  height: 100%;
+  background-color: #4B0707;
+  color: aliceblue;
+  position: fixed;
+  top: 0;
+  left: -140px; /* Initially off-screen */
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease; /* Smooth transition */
+}
+
+.mini-drawer.open {
+  left: 0; /* Slide in when open */
+}
+
+.drawerMenu{
+  display: flex;
+  justify-content: space-between;
+  flex:none;
+  text-align: center;
+  align-items: center;
+}
+
+.drawerList {
+  flex:none;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  margin-top: 15px;
+}
+
+.underline-text {
+  border-bottom: 1px solid black; /* เปลี่ยนสีและขนาดของขีดเส้นตามต้องการ */
+  display: inline-block; /* ให้ขีดเส้นปรากฏแนบข้อความ */
+}
+
+button {
+  margin-bottom : 10px;
+}
+
+.radio-inputs {
+  
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #EEE;
+  box-sizing: border-box;
+
+  padding: 0.25rem;
+  width: 300px;
+  font-size: 14px;
+}
+
+.radio-inputs .radio {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.radio-inputs .radio input {
+  display: none;
+}
+
+.radio-inputs .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: .5rem 0;
+  color: rgba(51, 65, 85, 1);
+  transition: all .15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+  background-color: #B67575;
+  font-weight: 600;
+}
+
+.checkbox-group label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.select-dropdown{
+  flex-direction: column
+
+}
+.group-dropdown{
+  display: flex;
+  gap: 40px;
+
+}
+.group-Error{
+  display: flex;
+  
+}
+.group-uidropdown{
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="radio"] {
+  margin-right: 5px;
+}
+table {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  font-size: 12px;
+  font-weight: 600;
+  
+  border: 1px solid #ddd;
+  padding: 1px;
+  text-align: center;
+  height: 40px;
+}
