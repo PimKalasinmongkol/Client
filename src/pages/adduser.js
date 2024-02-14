@@ -26,11 +26,11 @@ function Adduser() {
           <div className='text-rose-color'>อาจารย์</div>
         </div>
         <div style={{ flex: 5 }} className='flex flex-row justify-center text-gray-50 text-xl font-bold p-5'>
-          <button onClick={() => setFilter(false)} className='flex flex-col rounded-md bg-button-color p-3.5 w-1/5 p-5 m-5 drop-shadow-lg hover:bg-rose-800 active:bg-neutral-800 justify-center items-center'>
+          <button onClick={() => setFilter(false)} className='flex flex-col rounded-md bg-button-color p-3.5 w-1/5 p-5 m-5  hover:bg-rose-800 active:bg-neutral-800 justify-center items-center'>
             <p>อาจารย์</p>
             <p>{data.filter(item => item.isadmin === 0).length}</p>
           </button>
-          <button onClick={() => setFilter(true)} className='flex flex-col rounded-md bg-button-color p-3.5 w-1/5 m-5 p-5 drop-shadow-lg hover:bg-rose-800 active:bg-neutral-800 justify-center items-center' >
+          <button onClick={() => setFilter(true)} className='flex flex-col rounded-md bg-button-color p-3.5 w-1/5 m-5 p-5  hover:bg-rose-800 active:bg-neutral-800 justify-center items-center' >
             <p>ผู้ดูแลระบบ</p>
             <p>{data.filter(item => item.isadmin === 1).length}</p>
 
@@ -44,7 +44,7 @@ function Adduser() {
                   if (filter === true) {
                     if (item.isadmin === 1) {
                       return (
-                        <div className='justify-between flex flex-row drop-shadow-md bg-white rounded-full m-3'>
+                        <div className='justify-between flex flex-row  bg-white rounded-full m-3'>
                           <div className='flex items-center'>
                             <img className='m-2' src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-256.png" width={40} alt="add user" />
                             <div className='flex flex-col font-bold'>
@@ -65,7 +65,7 @@ function Adduser() {
                   } else {
                     if (item.isadmin === 0) {
                       return (
-                        <div className='justify-between flex flex-row drop-shadow-md bg-white rounded-full m-3'>
+                        <div className='justify-between flex flex-row  bg-white rounded-full m-3'>
                           <div className='flex items-center'>
                             <img className='m-2' src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-256.png" width={40} alt="add user" />
                             <div className='flex flex-col font-bold'>
