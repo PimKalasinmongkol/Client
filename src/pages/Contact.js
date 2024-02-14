@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 const Contact = () => {
+  const [selectedYear, setSelectedYear] = useState("");
+  const [years, setYears] = useState([]);
   const [subject_nameTH, setSubject_nameTH] = useState("");
   const [subject_nameEN, setSubject_nameEN] = useState("");
   const [credit, setCredit] = useState(0);
@@ -10,14 +12,37 @@ const Contact = () => {
   const [courseData ,setCourseData] = useState([])
   const [selectAllCheckbox_open, setSelectAllCheckbox_open] = useState(false);
   const [selectAllCheckbox_delete, setSelectAllCheckbox_delete] = useState(false);
+  const [selectedItems, setSelectedItems] = useState({});
 
-  const handleSelectAllCheckboxOpen = () => {
-    setSelectAllCheckbox_open(!selectAllCheckbox_open);
-  };
-  
-  const handleSelectAllCheckboxDelete = () => {
-    setSelectAllCheckbox_delete(!selectAllCheckbox_delete);
-  };
+const handleCheckboxOpenChange = (id) => {
+  setSelectedItems({
+    ...selectedItems,
+    [id]: !selectedItems[id]
+  });
+};
+
+const handleCheckboxDeleteChange = (id) => {
+  setSelectedItems({
+    ...selectedItems,
+    [id]: !selectedItems[id]
+  });
+};
+
+const handleSelectAllOpen = () => {
+  const allSelected = Object.keys(selectedItems).reduce((acc, key) => {
+    acc[key] = true;
+    return acc;
+  }, {});
+  setSelectedItems(allSelected);
+};
+
+const handleSelectAllDelete = () => {
+  const allSelected = Object.keys(selectedItems).reduce((acc, key) => {
+    acc[key] = true;
+    return acc;
+  }, {});
+  setSelectedItems(allSelected);
+};
      
   async function handleImportCourse() {
     try {
@@ -46,6 +71,24 @@ const Contact = () => {
     })()
   }, [courseData])
 
+  useEffect(() => {
+    const currentYear = new Date().getFullYear() + 543;
+    const yearOptions = [];
+
+    for (let i = currentYear - 10; i <= currentYear + 10; i++) {
+      if (i % 5 === 0 || i % 5 === 5) {
+        yearOptions.push(i);
+      }
+    }
+
+    setYears(yearOptions);
+    setSelectedYear(currentYear);
+  }, []);
+
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
   return (
     <div className="ml-28 mx-5 my-5">
       <div className="flex text-3xl font-bold">
@@ -68,15 +111,16 @@ const Contact = () => {
               <div className="flex flex-row justify-end items-center  w-2/5">
                 <p className="p-2">ปีหลักสูตร</p>
                 <div className="flex items-center justify-between w-3/5 bg-white rounded-full  p-2 m-1">
-                  <select
+                  <select value={selectedYear} onChange={handleYearChange}
                     className="rounded-full pl-1 text-sm py-1.5 w-full "
                     name="year"
                     id="year"
                   >
-                    <option value="">ปีการศึกษา</option>
-                    <option value="2560">2560</option>
-                    <option value="2565">2565</option>
-                    <option value="2570">2570</option>
+                    {years.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -113,16 +157,17 @@ const Contact = () => {
                 <label for="name">
                   <p className="pr-1">หลักสูตร</p>
                 </label>
-                <select
+                <select value={selectedYear} onChange={handleYearChange}
                   className="rounded-full pl-1 text-sm py-1.5 w-3/5 "
                   name="year"
                   id="year"
-                  onChange={(event) => setSchool_year(event.target.value)}
+                  
                 >
-                  <option value="">ปีการศึกษา</option>
-                  <option value="2560">2560</option>
-                  <option value="2565">2565</option>
-                  <option value="2570">2570</option>
+                  {years.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
                 </select>
               </div>
 
@@ -202,8 +247,7 @@ const Contact = () => {
               <th>
                 <div className="justify-center items-center">
                   <div className="flex flex-row">
-                    <button type='button' className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500"
-                    onClick={handleSelectAllCheckboxOpen}>
+                    <button type='button' className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500" onClick={handleSelectAllOpen}>
                       เลือกทั้งหมด
                     </button>
                     <button type='button' className="p-2 my-2 mx-2 rounded-lg bg-yes-color w-1/2 hover:bg-zinc-500">
@@ -215,13 +259,12 @@ const Contact = () => {
               <th>
                 <div className="justify-center items-center">
                   <div className="flex flex-row">
-                    <button className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500"
-                    onClick={handleSelectAllCheckboxDelete}>
-                      เลือกทั้งหมด
-                    </button>
-                    <button className="p-2 my-2 mx-2 rounded-lg bg-no-color w-1/2 hover:bg-zinc-500">
-                      ลบ
-                    </button>
+                  <button className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500" onClick={handleSelectAllDelete}>
+                    เลือกทั้งหมด
+                  </button>
+                  <button className="p-2 my-2 mx-2 rounded-lg bg-no-color w-1/2 hover:bg-zinc-500">
+                    ลบ
+                  </button>
                   </div>
                 </div>
               </th>
@@ -247,18 +290,20 @@ const Contact = () => {
                     <p>{item.type}</p>
                   </td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="accent-rose-color w-7 h-7"
-                      onChange={() => setSelectAllCheckbox_open(selectAllCheckbox_open)}
-                    />
+                  <input
+                    type="checkbox"
+                    className="accent-rose-color w-7 h-7"
+                    onChange={() => handleCheckboxOpenChange(item.subject_id)}
+                    checked={selectedItems[item.subject_id]}
+                  />
                   </td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="accent-rose-color w-7 h-7"
-                      onChange={() => setSelectAllCheckbox_delete(selectAllCheckbox_delete)}
-                    />
+                  <input
+                    type="checkbox"
+                    className="accent-rose-color w-7 h-7"
+                    onChange={() => handleCheckboxDeleteChange(item.subject_id)}
+                    checked={selectedItems[item.subject_id]}
+                  />
                   </td>
                 </tr>
               ))
