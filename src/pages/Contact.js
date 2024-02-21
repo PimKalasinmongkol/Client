@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import * as XLXS from 'xlsx';
+
 
 const Contact = () => {
+  const [data,setData] = useState([])
   const [selectedYear, setSelectedYear] = useState("");
   const [years, setYears] = useState([]);
   const [subject_nameTH, setSubject_nameTH] = useState("");
@@ -10,8 +13,6 @@ const Contact = () => {
   const [subject_id, setSubject_id] = useState("");
   const [type, setType] = useState("");
   const [courseData ,setCourseData] = useState([])
-  const [selectAllCheckbox_open, setSelectAllCheckbox_open] = useState(false);
-  const [selectAllCheckbox_delete, setSelectAllCheckbox_delete] = useState(false);
   const [selectedItems, setSelectedItems] = useState({});
   const [filteredCourseData, setFilteredCourseData] = useState([]); // เพิ่ม state สำหรับเก็บข้อมูลที่ถูกกรอง
   const [filterValue, setFilterValue] = useState(""); // เพิ่ม state เพื่อใช้ในการกรองข้อมูล
@@ -116,8 +117,20 @@ const handleSelectAllDelete = () => {
   const handleFilterChange = (event) => {
     setFilterValue(event.target.value);
   };
-  
-  
+
+  const handleFileUpload = (e) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(e.target.files[0])
+    
+    reader.onload = (e) => {
+      const data = e.target.result;
+      const workbook = XLXS.read(data,{type : "binary"});
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const parsedData = XLXS.utils.sheet_to_json(sheet);
+      setData(parsedData);
+    };
+  };
 
   return (
     <div className="ml-28 mx-5 my-5">
@@ -126,16 +139,16 @@ const handleSelectAllDelete = () => {
       </div>
       <div className="flex flex-row justify-between pt-5 h-90">
         <form className="bg-from-color p-2 m-2 w-3/5 rounded-lg h-90 text-base">
-          <div className="flex flex-col justify-center ">
+          <div className="flex flex-col justify-center h-90">
             <div className="flex flex-row items-center justify-between">
               <div className="flex items-center justify-between w-3/5 bg-white rounded-full  p-1 m-1">
                 <input
+                  type="file"
+                  accept=".xlsx, .xls"
+                  onChange={handleFileUpload}
                   className="rounded-full pl-1 text-sm py-1.5 w-3/4"
                   placeholder="ไฟล์หลักสูตรปีการศึกษา"
                 ></input>
-                <button className="bg-rose-color font-semibold text-white m-1 p-1 rounded-full w-1/4 hover:bg-red-900 active:bg-neutral-800">
-                  เลือก
-                </button>
               </div>
 
               <div className="flex flex-row justify-end items-center  w-2/5">
@@ -155,6 +168,29 @@ const handleSelectAllDelete = () => {
                 </div>
               </div>
             </div>
+            <form  className="bg-white flex m-2 p-2 rounded h-72">
+                  {data.length > 0 && (
+                    <table className="table-auto">
+                      <thead>
+                        <tr>
+                        {Object.keys(data[0]).map((key) => (
+                            <th key={key}>{key}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {data.map((row, index) => (
+                            <tr key={index}>
+                              {Object.values(row).map((value, index) => (
+                                <td key={index}>{value}</td>
+                              ))}
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  )}
+
+            </form>
           </div>
           <div className="flex justify-end pt-2 pr-3">
             <button className="bg-rose-color font-semibold text-white m-1 p-1 rounded-full w-1/4 hover:bg-red-900 active:bg-neutral-800">
@@ -191,7 +227,6 @@ const handleSelectAllDelete = () => {
                   className="rounded-full pl-1 text-sm py-1.5 w-3/5 "
                   name="year"
                   id="year"
-                  
                 >
                   {years.map((year) => (
                       <option key={year} value={year}>
@@ -224,8 +259,6 @@ const handleSelectAllDelete = () => {
                   onChange={(event) => setSubject_nameTH(event.target.value)}
                 />
               </div>
-
-              
 
               <div className="flex flex-row justify-between  w-full items-center py-2">
                 <label for="name">
@@ -267,10 +300,10 @@ const handleSelectAllDelete = () => {
           </div>
         </form>
       </div>
-      <form className="table-subject">
-      <div className="flex flex-row items-center justify-between w-3/5 bg-white rounded-full p-1 m-1">
+      <form className="justify-center">
+      <div className="flex flex-row items-end justify-center w-full bg-white rounded-full pt-3 px-2">
         <input
-          className="rounded-full px-2 text-sm py-2 w-3/4"
+          className="rounded-full px-2 text-sm py-2 w-3/5 border-2 border-rose-color"
           placeholder="กรองข้อมูล"
           value={filterValue}
           onChange={handleFilterChange}
