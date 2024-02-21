@@ -28,9 +28,7 @@ const Blogs = () => {
             <div>
               <select className="rounded-full p-5  text-sm py-1.5 w-full bg-gray-200" name="year" id="year">
                 <option value="">All</option>
-                <option value="2560">2560</option>
-                <option value="2565">2565</option>
-                <option value="2570">2570</option>
+                <option value="1">พิม กาฬสินธุ์มงคล</option>
               </select>
             </div>
           </div>
@@ -39,9 +37,10 @@ const Blogs = () => {
             <div>
               <select className="rounded-full p-5  text-sm py-1.5 w-full bg-gray-200" name="year" id="year">
                 <option value="">All</option>
-                <option value="2560">2560</option>
-                <option value="2565">2565</option>
-                <option value="2570">2570</option>
+                <option value="2560">1</option>
+                <option value="2565">2</option>
+                <option value="2570">3</option>
+                <option value="2570">4</option>
               </select>
             </div>
           </div>
@@ -50,9 +49,9 @@ const Blogs = () => {
             <div>
               <select className="rounded-full p-5  text-sm py-1.5 w-full bg-gray-200" name="year" id="year">
                 <option value="">All</option>
-                <option value="2560">2560</option>
-                <option value="2565">2565</option>
-                <option value="2570">2570</option>
+                <option value="2560">17203(100)</option>
+                <option value="2565">17204(100)</option>
+                <option value="2570">17205(100)</option>
               </select>
             </div>
           </div>
@@ -68,9 +67,8 @@ const Blogs = () => {
             </div>
             <select className="rounded-full p-9  text-sm py-1.5 w-full bg-gray-200" name="year" id="year">
                 <option value="">All</option>
-                <option value="2560">2560</option>
-                <option value="2565">2565</option>
-                <option value="2570">2570</option>
+                <option value="2560">Abstract Data Types and Problem Solving</option>
+                <option value="2565">Algorithm Design and Analysis</option>
               </select>
           </div>
         </div>

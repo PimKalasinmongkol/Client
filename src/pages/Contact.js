@@ -13,6 +13,10 @@ const Contact = () => {
   const [selectAllCheckbox_open, setSelectAllCheckbox_open] = useState(false);
   const [selectAllCheckbox_delete, setSelectAllCheckbox_delete] = useState(false);
   const [selectedItems, setSelectedItems] = useState({});
+  const [filteredCourseData, setFilteredCourseData] = useState([]); // เพิ่ม state สำหรับเก็บข้อมูลที่ถูกกรอง
+  const [filterValue, setFilterValue] = useState(""); // เพิ่ม state เพื่อใช้ในการกรองข้อมูล
+
+
 
 const handleCheckboxOpenChange = (id) => {
   setSelectedItems({
@@ -88,6 +92,32 @@ const handleSelectAllDelete = () => {
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
   };
+
+  useEffect(() => {
+    // ใช้ filterValue เพื่อกรองข้อมูลที่แสดงในตาราง
+    const filteredData = courseData.filter(item => {
+      // ตรวจสอบว่า subject_id ไม่ใช่ null หรือ undefined
+      if (item.subject_id !== null && item.subject_id !== undefined) {
+        // ใช้ toLowerCase() เมื่อ subject_id เป็น string เท่านั้น
+        return (
+          item.subject_id.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
+          item.subject_nameEN.toLowerCase().includes(filterValue.toLowerCase()) ||
+          item.subject_nameTH.toLowerCase().includes(filterValue.toLowerCase())
+          // และอื่นๆ ตามเงื่อนไขที่ต้องการกรอง
+        );
+      } else {
+        return false; // ถ้า subject_id เป็น null หรือ undefined ให้ไม่รวมเข้าไปในการกรอง
+      }
+    });
+    
+    setFilteredCourseData(filteredData);
+  }, [filterValue, courseData]);
+
+  const handleFilterChange = (event) => {
+    setFilterValue(event.target.value);
+  };
+  
+  
 
   return (
     <div className="ml-28 mx-5 my-5">
@@ -173,18 +203,6 @@ const handleSelectAllDelete = () => {
 
               <div className="flex flex-row justify-between  w-full items-center py-2">
                 <label for="name">
-                  <p className="pr-1">ชื่อวิชา-ภาษาไทย</p>
-                </label>
-                <input
-                  type="text"
-                  className="rounded-full p-3 text-sm py-1.5 w-3/5  "
-                  placeholder="ชื่อวิชาภาษาไทย"
-                  onChange={(event) => setSubject_nameTH(event.target.value)}
-                />
-              </div>
-
-              <div className="flex flex-row justify-between  w-full items-center py-2">
-                <label for="name">
                   <p className="pr-1">ชื่อวิชา-อังกฤษ</p>
                 </label>
                 <input
@@ -197,6 +215,20 @@ const handleSelectAllDelete = () => {
 
               <div className="flex flex-row justify-between  w-full items-center py-2">
                 <label for="name">
+                  <p className="pr-1">ชื่อวิชา-ภาษาไทย</p>
+                </label>
+                <input
+                  type="text"
+                  className="rounded-full p-3 text-sm py-1.5 w-3/5  "
+                  placeholder="ชื่อวิชาภาษาไทย"
+                  onChange={(event) => setSubject_nameTH(event.target.value)}
+                />
+              </div>
+
+              
+
+              <div className="flex flex-row justify-between  w-full items-center py-2">
+                <label for="name">
                   <p className="pr-1">ประเภท</p>
                 </label>
                 <select
@@ -206,9 +238,9 @@ const handleSelectAllDelete = () => {
                   onChange={(event) => setType(event.target.value)}
                 >
                   <option value="">ประเภทวิชา</option>
-                  <option value={"วิชาแกน"}>วิชาแกน</option>
-                  <option value={"วิชาเฉพาะบังคับ"}>วิชาเฉพาะบังคับ</option>
-                  <option value={"วิชาเลือก"}>วิชาเลือก</option>
+                  <option value={"1"}>วิชาแกน</option>
+                  <option value={"2"}>วิชาเฉพาะบังคับ</option>
+                  <option value={"3"}>วิชาเลือก</option>
                 </select>
               </div>
 
@@ -235,7 +267,16 @@ const handleSelectAllDelete = () => {
           </div>
         </form>
       </div>
-      <form>
+      <form className="table-subject">
+      <div className="flex flex-row items-center justify-between w-3/5 bg-white rounded-full p-1 m-1">
+        <input
+          className="rounded-full px-2 text-sm py-2 w-3/4"
+          placeholder="กรองข้อมูล"
+          value={filterValue}
+          onChange={handleFilterChange}
+        ></input>
+        {/* ส่วนอื่นๆของ input กรองข้อมูล */}
+      </div>
         <table class="table-auto">
           <thead>
             <tr>
@@ -272,8 +313,8 @@ const handleSelectAllDelete = () => {
           </thead>
           <tbody>
             {
-              courseData.map((item) => (
-                <tr>
+              filteredCourseData.map((item) => (
+                <tr key={item.subject_id}>
                   <td>
                     <p>{item.subject_id}</p>
                   </td>
@@ -287,7 +328,7 @@ const handleSelectAllDelete = () => {
                     <p>{item.credit}</p>
                   </td>
                   <td>
-                    <p>{item.type}</p>
+                    <p>{item.type === '1' ? 'วิชาแกน' : item.type === '2' ? 'วิชาเฉพาะบังคับ' : 'วิชาเลือก'}</p>
                   </td>
                   <td>
                   <input

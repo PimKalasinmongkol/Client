@@ -12,20 +12,18 @@ const Home = () => {
         </div>
 
         <div className='flex flex-row justify-center my-20'>
-          <div className='flex flex-col bg-from-color rounded-lg  p-5 mx-12 w-6/12 justify-center '>
+          <div className='flex flex-col bg-from-color rounded-lg  p-5 mx-12 w-8/12 justify-center '>
             <div className='flex flex-row justify-start'>
               <div className='flex flex-row p-6 items-center'>
                 <FaCircleUser size={80} />
-                
-
-              </div>
-              <div className='flex flex-col p-6 justify-start'>
-                <p className='pl-3 pb-2 text-rose-color text-2xl '>ชื่อ-นามสกุล: คุณสมศรี สนุกซุกซน</p>
-                <p className='pl-3 pt-2 text-rose-color text-2xl '>สถานะ: อาจารย์</p>
-              </div>
+              
+                <div className='flex flex-col p-6 justify-start'>
+                  <p className='flex pl-3 pb-2 text-rose-color text-2xl '>ชื่อ-นามสกุล : <p>คุณสมศรี สนุกซุกซน</p></p>
+                  <p className='flex pl-3 pt-2 text-rose-color text-2xl '>สถานะ : <p>อาจารย์</p></p>
+                </div>
             </div>
             <div>
-
+            </div>
             </div>
           </div>
         </div>
