@@ -8,6 +8,7 @@ import NoPage from "./pages/NoPage";
 import Adduser from "./pages/adduser";
 import Main from "./pages/main";
 import Adduser_ from "./pages/adduser_";
+import Addroom_ from "./pages/addroom";
 
 
 
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="adduser" element={<Adduser />} />
           <Route path="logout" element={<NoPage />} />
           <Route path="adduser_" element={<Adduser_ />} />
+          <Route path="addroom_" element={<Addroom_ />} />
         </Route>
       </Routes>
     </BrowserRouter>

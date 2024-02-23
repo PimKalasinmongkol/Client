@@ -9,7 +9,6 @@ const Contact = () => {
   const [subject_nameTH, setSubject_nameTH] = useState("");
   const [subject_nameEN, setSubject_nameEN] = useState("");
   const [credit, setCredit] = useState(0);
-  const [school_year, setSchool_year] = useState("");
   const [subject_id, setSubject_id] = useState("");
   const [type, setType] = useState("");
   const [courseData ,setCourseData] = useState([])
@@ -60,7 +59,7 @@ const handleSelectAllDelete = () => {
           subject_nameTH: subject_nameTH,
           credit: credit,
           type: type,
-          school_year: school_year,
+          school_year: selectedYear,
         }),
       });
     } catch (e) {
@@ -119,6 +118,7 @@ const handleSelectAllDelete = () => {
   };
 
   const handleFileUpload = (e) => {
+    setData([]);
     const reader = new FileReader();
     reader.readAsArrayBuffer(e.target.files[0])
     
@@ -131,6 +131,7 @@ const handleSelectAllDelete = () => {
       setData(parsedData);
     };
   };
+
 
   return (
     <div className="ml-28 mx-5 my-5">
@@ -196,6 +197,7 @@ const handleSelectAllDelete = () => {
             <button className="bg-rose-color font-semibold text-white m-1 p-1 rounded-full w-1/4 hover:bg-red-900 active:bg-neutral-800">
               อัพโหลด
             </button>
+            
           </div>
         </form>
         <form

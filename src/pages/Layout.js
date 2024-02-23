@@ -53,6 +53,11 @@ const Layout = () => {
         </div>
 
         <div className='drawerList'>
+          <Link to="/addroom_">นำเข้าห้องเรียน</Link>
+          <Link to="/addroom_"><CgInsertBeforeR size={40} /></Link>
+        </div>
+
+        <div className='drawerList'>
           <Link to="/adduser">ข้อมูลผู้ใช้งาน</Link>
           <Link to="/adduser"> <FaUserCheck size={40} /></Link>
         </div>
