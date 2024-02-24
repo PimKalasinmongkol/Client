@@ -12,7 +12,7 @@ const Addroom = () => {
 
     async function handleImportroom() {
         try {
-            await fetch("http://localhost:4000/course/importCourse", {
+            await fetch("http://localhost:4000/room/importRoom", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -27,7 +27,7 @@ const Addroom = () => {
 
     useEffect(() => {
         (async function() {
-            const res = await fetch("http://localhost:4000/course/getAllCourses");
+            const res = await fetch("http://localhost:4000/room/getAllRoom");
             const data = await res.json();
             setCourseData(data);
         })();
@@ -54,7 +54,7 @@ const Addroom = () => {
         const filteredData = courseData.filter(item => {
           if (item.room_number !== null && item.room_number !== undefined) {
             return (
-              item.room_number.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
+              item.room_seat.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
               item.room_number.toLowerCase().includes(filterValue.toLowerCase()) 
               
             );
