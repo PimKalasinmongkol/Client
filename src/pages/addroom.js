@@ -3,29 +3,21 @@ import * as XLXS from 'xlsx';
 
 const Addroom = () => {
     const [data,setData] = useState([])
-    const [subject_nameTH, setSubject_nameTH] = useState("");
-    const [subject_nameEN, setSubject_nameEN] = useState("");
-    const [credit, setCredit] = useState(0);
-    const [school_year, setSchool_year] = useState("");
-    const [subject_id, setSubject_id] = useState("");
-    const [type, setType] = useState("");
+    const [room_number, setRoom_number] = useState("");
+    const [room_seat, setRoom_seat] = useState(0);
     const [courseData ,setCourseData] = useState([]);
-    const [selectAllCheckbox_open, setSelectAllCheckbox_open] = useState(false);
-    const [selectAllCheckbox_delete, setSelectAllCheckbox_delete] = useState(false);
+    const [filteredCourseData, setFilteredCourseData] = useState([]); 
+    const [filterValue, setFilterValue] = useState(""); 
 
 
-    async function handleImportCourse() {
+    async function handleImportroom() {
         try {
             await fetch("http://localhost:4000/course/importCourse", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    subject_id: subject_id,
-                    subject_nameEN: subject_nameEN,
-                    subject_nameTH: subject_nameTH,
-                    credit: credit,
-                    type: type,
-                    school_year: school_year,
+                    room_number: room_number,
+                    room_seat: room_seat,
                 }),
             });
         } catch (e) {
@@ -40,30 +32,7 @@ const Addroom = () => {
             setCourseData(data);
         })();
     }, []);
-
-    // Function to handle select all checkboxes for opening
-    const handleSelectAllOpen = () => {
-        const updatedData = courseData.map(item => {
-            return {
-                ...item,
-                selected: !selectAllCheckbox_open
-            };
-        });
-        setCourseData(updatedData);
-        setSelectAllCheckbox_open(!selectAllCheckbox_open);
-    };
-
-    // Function to handle select all checkboxes for deleting
-    const handleSelectAllDelete = () => {
-        const updatedData = courseData.map(item => {
-            return {
-                ...item,
-                selected: !selectAllCheckbox_delete
-            };
-        });
-        setCourseData(updatedData);
-        setSelectAllCheckbox_delete(!selectAllCheckbox_delete);
-    };
+    
 
     const handleFileUpload = (e) => {
         setData([]);
@@ -78,6 +47,27 @@ const Addroom = () => {
           const parsedData = XLXS.utils.sheet_to_json(sheet);
           setData(parsedData);
         };
+      };
+
+      useEffect(() => {
+        
+        const filteredData = courseData.filter(item => {
+          if (item.room_number !== null && item.room_number !== undefined) {
+            return (
+              item.room_number.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
+              item.room_number.toLowerCase().includes(filterValue.toLowerCase()) 
+              
+            );
+          } else {
+            return false; 
+          }
+        });
+        
+        setFilteredCourseData(filteredData);
+      }, [filterValue, courseData]);
+
+      const handleFilterChange = (event) => {
+        setFilterValue(event.target.value);
       };
 
     return (
@@ -133,7 +123,7 @@ const Addroom = () => {
                 {/* Add Room Form */}
                 <form
                     className="bg-from-color p-2 m-2 w-2/5 rounded-lg h-90 justify-center"
-                    onSubmit={handleImportCourse}>
+                    onSubmit={handleImportroom}>
                     {/* Header */}
                     <div className="flex justify-center text-lg font-semibold pt-2">
                         <p>เพิ่มห้องเรียน</p>
@@ -149,7 +139,7 @@ const Addroom = () => {
                                     type="text"
                                     className="rounded-full p-3 text-sm py-1.5 w-3/5  "
                                     placeholder="เลขห้อง"
-                                    onChange={(event) => setSubject_nameTH(event.target.value)}
+                                    onChange={(event) => setRoom_number(event.target.value)}
                                 />
                             </div>
                             {/* Number of Students Input */}
@@ -161,7 +151,7 @@ const Addroom = () => {
                                     type="int"
                                     className="rounded-full p-3 text-sm py-1.5 w-3/5  "
                                     placeholder="จำนวนคน"
-                                    onChange={(event) => setSubject_nameEN(event.target.value)}
+                                    onChange={(event) => setRoom_seat(event.target.value)}
                                 />
                             </div>
                         </div>
@@ -178,7 +168,16 @@ const Addroom = () => {
                 </form>
             </div>
             {/* Table of Courses */}
-            <form>
+            <form className="justify-center">
+                <div className="flex flex-row items-end justify-center w-full bg-white rounded-full pt-3 px-2">
+                    <input
+                    className="rounded-full px-2 text-sm py-2 w-3/5 border-2 border-rose-color"
+                    placeholder="กรองข้อมูล"
+                    value={filterValue}
+                    onChange={handleFilterChange}
+                    ></input>
+                    {/* ส่วนอื่นๆของ input กรองข้อมูล */}
+                </div>
                 <table className="table-auto">
                     <thead>
                         <tr>
@@ -190,7 +189,7 @@ const Addroom = () => {
                                         <button
                                             type='button'
                                             className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500"
-                                            onClick={handleSelectAllOpen}
+                                            
                                         >
                                             เลือกทั้งหมด
                                         </button>
@@ -208,7 +207,7 @@ const Addroom = () => {
                                     <div className="flex flex-row">
                                         <button
                                             className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500"
-                                            onClick={handleSelectAllDelete}
+                                            
                                         >
                                             เลือกทั้งหมด
                                         </button>
@@ -224,31 +223,20 @@ const Addroom = () => {
                     </thead>
                     <tbody>
                         {
-                            courseData.map((item) => (
+                            filteredCourseData.map((item) => (
                                 <tr key={item.id}>
                                     <td>
-                                        <p>{item.subject_nameTH}</p>
+                                        <p>{item.room_number}</p>
                                     </td>
                                     <td>
-                                        <p>{item.subject_nameEN}</p>
+                                        <p>{item.room_seat}</p>
                                     </td>
                                     <td>
                                         <input
                                             type="checkbox"
                                             className="accent-rose-color w-7 h-7"
                                             checked={item.selected || false}
-                                            onChange={() => {
-                                                const updatedData = courseData.map((course) => {
-                                                    if (course.id === item.id) {
-                                                        return {
-                                                            ...course,
-                                                            selected: !item.selected
-                                                        };
-                                                    }
-                                                    return course;
-                                                });
-                                                setCourseData(updatedData);
-                                            }}
+                                           
                                         />
                                     </td>
                                     <td>
@@ -256,18 +244,7 @@ const Addroom = () => {
                                             type="checkbox"
                                             className="accent-rose-color w-7 h-7"
                                             checked={item.selected || false}
-                                            onChange={() => {
-                                                const updatedData = courseData.map((course) => {
-                                                    if (course.id === item.id) {
-                                                        return {
-                                                            ...course,
-                                                            selected: !item.selected
-                                                        };
-                                                    }
-                                                    return course;
-                                                });
-                                                setCourseData(updatedData);
-                                            }}
+                                            
                                         />
                                     </td>
                                 </tr>

@@ -9,6 +9,7 @@ import { IoLockOpen } from "react-icons/io5";
 import { IoMenu } from "react-icons/io5";
 import { FaHome } from "react-icons/fa";
 import { FaUserCheck } from "react-icons/fa";
+import { MdOutlineDomainAdd } from "react-icons/md";
 
 import '../style.css';
 
@@ -54,7 +55,7 @@ const Layout = () => {
 
         <div className='drawerList'>
           <Link to="/addroom_">นำเข้าห้องเรียน</Link>
-          <Link to="/addroom_"><CgInsertBeforeR size={40} /></Link>
+          <Link to="/addroom_"><MdOutlineDomainAdd size={40} /></Link>
         </div>
 
         <div className='drawerList'>
