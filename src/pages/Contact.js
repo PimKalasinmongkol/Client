@@ -12,41 +12,67 @@ const Contact = () => {
   const [subject_id, setSubject_id] = useState("");
   const [type, setType] = useState("");
   const [courseData ,setCourseData] = useState([])
-  const [selectedItems, setSelectedItems] = useState({});
   const [filteredCourseData, setFilteredCourseData] = useState([]); // เพิ่ม state สำหรับเก็บข้อมูลที่ถูกกรอง
   const [filterValue, setFilterValue] = useState(""); // เพิ่ม state เพื่อใช้ในการกรองข้อมูล
+  const [selectedItems_open, setSelectedItems_open] = useState({});
+  const [selectedItems_delete, setSelectedItems_delete] = useState({});
+  const [buttonText_open,setButtonText_open] = useState("เลือกทั้งหมด")
+  const [buttonText_delete,setButtonText_delete] = useState("เลือกทั้งหมด")
 
+  ////////////////////open/////////////////////
+  const handleCheckboxChange_open = (id) => {
+    setSelectedItems_open({
+      ...selectedItems_open,
+      [id]: !selectedItems_open[id]
+    });
+  };
+  
+  const handleCheckAll_open = () => {
+    const allSelected_open = {}; // Object to store selected state for all items
+    const allSelected = Object.values(selectedItems_open).every(value => value); // Check if all items are currently selected
+  
+    // If all items are currently selected, deselect all; otherwise, select all
+    filteredCourseData.forEach(item => {
+      allSelected_open[item.subject_id] = !allSelected;
+    });
+  
+    // Update selectedItems_open state with allSelected_open
+    setSelectedItems_open(allSelected_open);
 
+    if (allSelected) {
+      setButtonText_open("เลือกทั้งหมด");
+    } else {
+      setButtonText_open("ยกเลิกทั้งหมด");
+    }
+  };
 
-const handleCheckboxOpenChange = (id) => {
-  setSelectedItems({
-    ...selectedItems,
-    [id]: !selectedItems[id]
-  });
-};
+  ///////////////////delete/////////////////
+  const handleCheckboxChange_delete = (id) => {
+    setSelectedItems_delete({
+      ...selectedItems_delete,
+      [id]: !selectedItems_delete[id]
+    });
+  };
+  
+  const handleCheckAll_delete = () => {
+    const allSelected_delete = {}; // Object to store selected state for all items
+    const allSelected = Object.values(selectedItems_delete).every(value => value); // Check if all items are currently selected
+  
+    // If all items are currently selected, deselect all; otherwise, select all
+    filteredCourseData.forEach(item => {
+      allSelected_delete[item.subject_id] = !allSelected;
+    });
+  
+    // Update selectedItems_delete state with allSelected_delete
+    setSelectedItems_delete(allSelected_delete);
 
-const handleCheckboxDeleteChange = (id) => {
-  setSelectedItems({
-    ...selectedItems,
-    [id]: !selectedItems[id]
-  });
-};
+    if (allSelected) {
+      setButtonText_delete("เลือกทั้งหมด");
+    } else {
+      setButtonText_delete("ยกเลิกทั้งหมด");
+    }
+  };
 
-const handleSelectAllOpen = () => {
-  const allSelected = Object.keys(selectedItems).reduce((acc, key) => {
-    acc[key] = true;
-    return acc;
-  }, {});
-  setSelectedItems(allSelected);
-};
-
-const handleSelectAllDelete = () => {
-  const allSelected = Object.keys(selectedItems).reduce((acc, key) => {
-    acc[key] = true;
-    return acc;
-  }, {});
-  setSelectedItems(allSelected);
-};
      
   async function handleImportCourse() {
     try {
@@ -323,10 +349,12 @@ const handleSelectAllDelete = () => {
               <th>
                 <div className="justify-center items-center">
                   <div className="flex flex-row">
-                    <button type='button' className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500" onClick={handleSelectAllOpen}>
-                      เลือกทั้งหมด
+                    <button type='button' className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500" 
+                    onClick={handleCheckAll_open}>
+                      {buttonText_open}
                     </button>
-                    <button type='button' className="p-2 my-2 mx-2 rounded-lg bg-yes-color w-1/2 hover:bg-zinc-500">
+                    <button type='button' className="p-2 my-2 mx-2 rounded-lg bg-yes-color w-1/2 hover:bg-zinc-500"
+                    >
                       เปิด
                     </button>
                   </div>
@@ -335,8 +363,10 @@ const handleSelectAllDelete = () => {
               <th>
                 <div className="justify-center items-center">
                   <div className="flex flex-row">
-                  <button className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500" onClick={handleSelectAllDelete}>
-                    เลือกทั้งหมด
+                  <button className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500" 
+                  type="button"
+                  onClick={handleCheckAll_delete}>
+                    {buttonText_delete}
                   </button>
                   <button className="p-2 my-2 mx-2 rounded-lg bg-no-color w-1/2 hover:bg-zinc-500">
                     ลบ
@@ -365,22 +395,29 @@ const handleSelectAllDelete = () => {
                   <td>
                     <p>{item.type === '1' ? 'วิชาแกน' : item.type === '2' ? 'วิชาเฉพาะบังคับ' : 'วิชาเลือก'}</p>
                   </td>
+
                   <td>
-                  <input
+                  <label key = {item.subject_id}>
+                    <input
                     type="checkbox"
                     className="accent-rose-color w-7 h-7"
-                    onChange={() => handleCheckboxOpenChange(item.subject_id)}
-                    checked={selectedItems[item.subject_id]}
-                  />
+                    onChange={() => handleCheckboxChange_open(item.subject_id)}
+                    checked={selectedItems_open[item.subject_id]}                
+                    />
+                  </label>
                   </td>
+
                   <td>
-                  <input
+                  <label key = {item.subject_id}>
+                    <input
                     type="checkbox"
-                    className="accent-rose-color w-7 h-7"
-                    onChange={() => handleCheckboxDeleteChange(item.subject_id)}
-                    checked={selectedItems[item.subject_id]}
-                  />
+                    className="accent-rose-color w-7 h-7"   
+                    onChange={() => handleCheckboxChange_delete(item.subject_id)}
+                    checked={selectedItems_delete[item.subject_id]}                
+                    />
+                  </label>
                   </td>
+
                 </tr>
               ))
             }
