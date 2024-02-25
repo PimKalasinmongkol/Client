@@ -14,59 +14,58 @@ const Addroom = () => {
     const [buttonText_delete,setButtonText_delete] = useState("เลือกทั้งหมด")
   
     ////////////////////open/////////////////////
-    const handleCheckboxChange_open = (id) => {
-      setSelectedItems_open({
-        ...selectedItems_open,
-        [id]: !selectedItems_open[id]
-      });
-    };
-    
-    const handleCheckAll_open = () => {
-      const allSelected_open = {}; // Object to store selected state for all items
-      const allSelected = Object.values(selectedItems_open).every(value => value); // Check if all items are currently selected
-    
-      // If all items are currently selected, deselect all; otherwise, select all
-      filteredCourseData.forEach(item => {
-        allSelected_open[item.subject_id] = !allSelected;
-      });
-    
-      // Update selectedItems_open state with allSelected_open
-      setSelectedItems_open(allSelected_open);
+  const handleCheckboxChange_open = (id) => {
+    setSelectedItems_open({
+      ...selectedItems_open,
+      [id]: !selectedItems_open[id]
+    });
+  };
   
-      if (allSelected) {
-        setButtonText_open("เลือกทั้งหมด");
-      } else {
-        setButtonText_open("ยกเลิกทั้งหมด");
-      }
-    };
+  const handleCheckAll_open = () => {
+    const allSelected_open = {}; // Object to store selected state for all items
+    const allSelected = Object.values(selectedItems_open).every(value => value); // Check if all items are currently selected
   
-    ///////////////////delete/////////////////
-    const handleCheckboxChange_delete = (id) => {
-      setSelectedItems_delete({
-        ...selectedItems_delete,
-        [id]: !selectedItems_delete[id]
-      });
-    };
-    
-    const handleCheckAll_delete = () => {
-      const allSelected_delete = {}; // Object to store selected state for all items
-      const allSelected = Object.values(selectedItems_delete).every(value => value); // Check if all items are currently selected
-    
-      // If all items are currently selected, deselect all; otherwise, select all
-      filteredCourseData.forEach(item => {
-        allSelected_delete[item.subject_id] = !allSelected;
-      });
-    
-      // Update selectedItems_delete state with allSelected_delete
-      setSelectedItems_delete(allSelected_delete);
+    // If all items are currently selected, deselect all; otherwise, select all
+    filteredCourseData.forEach(item => {
+      allSelected_open[item.room_number] = !allSelected;
+    });
   
-      if (allSelected) {
-        setButtonText_delete("เลือกทั้งหมด");
-      } else {
-        setButtonText_delete("ยกเลิกทั้งหมด");
-      }
-    };
-//////////////////////////////////////////////////////////////
+    // Update selectedItems_open state with allSelected_open
+    setSelectedItems_open(allSelected_open);
+
+    if (allSelected) {
+      setButtonText_open("เลือกทั้งหมด");
+    } else {
+      setButtonText_open("ยกเลิกทั้งหมด");
+    }
+  };
+
+  ///////////////////delete/////////////////
+  const handleCheckboxChange_delete = (id) => {
+    setSelectedItems_delete({
+      ...selectedItems_delete,
+      [id]: !selectedItems_delete[id]
+    });
+  };
+  
+  const handleCheckAll_delete = () => {
+    const allSelected_delete = {}; // Object to store selected state for all items
+    const allSelected = Object.values(selectedItems_delete).every(value => value); // Check if all items are currently selected
+  
+    // If all items are currently selected, deselect all; otherwise, select all
+    filteredCourseData.forEach(item => {
+      allSelected_delete[item.room_number] = !allSelected;
+    });
+  
+    // Update selectedItems_delete state with allSelected_delete
+    setSelectedItems_delete(allSelected_delete);
+
+    if (allSelected) {
+      setButtonText_delete("เลือกทั้งหมด");
+    } else {
+      setButtonText_delete("ยกเลิกทั้งหมด");
+    }
+  };
 
     async function handleImportroom() {
         try {
@@ -290,19 +289,19 @@ const Addroom = () => {
                                         <p>{item.room_seat}</p>
                                     </td>
                                     <td>
-                                        <input
-                                            type="checkbox"
-                                            className="accent-rose-color w-7 h-7"
-                                            onChange={() => handleCheckboxChange_open(item.room_number)}
-                                            checked={selectedItems_open[item.room_number]}    
-                                        />
+                                    <input
+                                        type="checkbox"
+                                        className="accent-rose-color w-7 h-7"
+                                        onChange={() => handleCheckboxChange_open(item.room_number)}
+                                        checked={selectedItems_open[item.room_number]}                
+                                    />
                                     </td>
                                     <td>
-                                        <input
-                                            type="checkbox"
-                                            className="accent-rose-color w-7 h-7"
-                                            onChange={() => handleCheckboxChange_delete(item.room_number)}
-                                            checked={selectedItems_delete[item.room_number]}               
+                                    <input
+                                        type="checkbox"
+                                        className="accent-rose-color w-7 h-7"   
+                                        onChange={() => handleCheckboxChange_delete(item.room_number)}
+                                        checked={selectedItems_delete[item.room_number]}                
                                         />
                                     </td>
                                 </tr>
