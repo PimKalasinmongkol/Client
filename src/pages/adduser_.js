@@ -44,16 +44,16 @@ const Adduser_ = () => {
               <p>สถานะ</p>
             </diV>
             <div className='flex items-center justify-center border-2 border-button-color border-dashed rounded-lg p-2'>
-              <div class="radio-inputs">
+              <div className="radio-inputs">
                 
-                <label class="radio">
+                <label className="radio">
                   <input type="radio" name="radio" value={0} onChange={(event) => setIsAdmin(event.target.value)} />
-                    <span class="name">อาจารย์</span>
+                    <span className="name">อาจารย์</span>
                 </label>
 
-                <label class="radio">
+                <label className="radio">
                   <input type="radio" name="radio" value={1} onChange={(event) => setIsAdmin(event.target.value)} />
-                    <span class="name">แอดมิน</span>
+                    <span className="name">แอดมิน</span>
                 </label>
               </div>
             </div>

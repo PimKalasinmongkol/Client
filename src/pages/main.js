@@ -46,11 +46,15 @@ const Main = () => {
           {
             announceTextData.length > 0 ?
             announceTextData.map((item) => (
-              <div className='flex flex-row justify-between'>
-                <div>{item.announce_text}</div>
-                <button onClick={() => handleDeleteAnnouncement(item.announce_id)} className='rounded hover:bg-neutral-50 active:bg-neutral-800 justify-self-end '>
-                <TiDelete size={30} color='#7A1E1E'/>
+              <div className='flex flex-col justify-center'>
+                <div className='flex justify-end'>
+                  <button  onClick={() => handleDeleteAnnouncement(item.announce_id)} className='rounded hover:bg-neutral-50 active:bg-neutral-800 justify-self-end '>
+                  <TiDelete size={30} color='#7A1E1E'/>
                 </button>
+                </div>
+                
+                <div className='flex w-full justify-center'><p className='text-center text-base'>{item.announce_text}</p></div>
+                
               </div>
             ))
             :

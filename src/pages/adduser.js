@@ -26,19 +26,20 @@ function Adduser() {
           <div className='text-rose-color'>อาจารย์</div>
         </div>
         <div style={{ flex: 5 }} className='flex flex-row justify-center text-gray-50 text-xl font-bold p-5'>
-          <button onClick={() => setFilter(false)} className='flex flex-col rounded-md bg-button-color p-3.5 w-1/5 p-5 m-5  hover:bg-rose-800 active:bg-neutral-800 justify-center items-center'>
+          <button onClick={() => setFilter(false)} className='flex flex-col rounded-md bg-button-color  w-1/5 p-5 m-5  hover:bg-rose-800 active:bg-neutral-800 justify-center items-center'>
             <p>อาจารย์</p>
             <p>{data.filter(item => item.isadmin === 0).length}</p>
           </button>
-          <button onClick={() => setFilter(true)} className='flex flex-col rounded-md bg-button-color p-3.5 w-1/5 m-5 p-5  hover:bg-rose-800 active:bg-neutral-800 justify-center items-center' >
+          <button onClick={() => setFilter(true)} className='flex flex-col rounded-md bg-button-color  w-1/5 m-5 p-5  hover:bg-rose-800 active:bg-neutral-800 justify-center items-center' >
             <p>ผู้ดูแลระบบ</p>
             <p>{data.filter(item => item.isadmin === 1).length}</p>
 
           </button>
         </div>
+         
         <div style={{ flex: 10 }} className='flex flex-row justify-center'>
           <div className='bg-from-color rounded-lg  p-5 mx-10 w-9/12'>
-            <form class=" h-60 touch-none justify-brtween m-5 text-name-color">
+            <form className=" h-60 touch-none justify-brtween m-5 text-name-color">
               {
                 data.map((item) => { 
                   if (filter === true) {

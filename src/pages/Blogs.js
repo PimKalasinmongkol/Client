@@ -5,7 +5,7 @@ const Blogs = () => {
       <div className="flex text-3xl font-bold">
         <p>ตารางสอน</p>
       </div>
-      <div class="checkbox-group pt-6">
+      <div className="checkbox-group pt-6">
         <div className='flex justify-items-stretch '>
           <label className='pr-4'>
             <input type="radio" name="subjectType" value="elective" />
@@ -21,9 +21,9 @@ const Blogs = () => {
           </label>
         </div>
       </div>
-      <div class="group-uidropdown pt-2">
-        <div class="group-dropdown">
-          <div class="select-dropdown">
+      <div className="group-uidropdown pt-2">
+        <div className="group-dropdown">
+          <div className="select-dropdown">
             <div>อาจารย์</div>
             <div>
               <select className="rounded-full p-5  text-sm py-1.5 w-full bg-gray-200" name="year" id="year">
@@ -32,7 +32,7 @@ const Blogs = () => {
               </select>
             </div>
           </div>
-          <div class="select-dropdown">
+          <div className="select-dropdown">
             <div>ชั้นปี</div>
             <div>
               <select className="rounded-full p-5  text-sm py-1.5 w-full bg-gray-200" name="year" id="year">
@@ -44,7 +44,7 @@ const Blogs = () => {
               </select>
             </div>
           </div>
-          <div class="select-dropdown">
+          <div className="select-dropdown">
             <div>ห้อง</div>
             <div>
               <select className="rounded-full p-5  text-sm py-1.5 w-full bg-gray-200" name="year" id="year">
@@ -55,7 +55,7 @@ const Blogs = () => {
               </select>
             </div>
           </div>
-          <div class="select-dropdown ">
+          <div className="select-dropdown ">
             <div>ค้นหา</div>
             <input className='rounded-full p-5   text-sm py-1.5 w-full bg-gray-200' type="text" id="search-input" placeholder="Search..." />
           </div>
